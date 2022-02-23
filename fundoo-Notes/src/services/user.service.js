@@ -8,7 +8,7 @@ export const getAllUsers = async () => {
   return data;
 };
 
-create new user
+//create new user
 export const userRegistration = async (body) => {
 
   const saltRounds = 10;
@@ -32,11 +32,11 @@ export const login = async (body)=>{
     
       var jwt = require('jsonwebtoken');
       const token = jwt.sign({"email": user.email,"id":user._id},'process.env.SECRET_CODE');
-      return token;
+       return token;
       
-   }
+    }
     else{
-     throw new Error("password is invalid")
+      throw new Error("password is invalid")
     }
   }
 }
