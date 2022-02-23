@@ -8,7 +8,7 @@ export const getAllUsers = async () => {
   return data;
 };
 
-//create new user
+create new user
 export const userRegistration = async (body) => {
 
   const saltRounds = 10;
@@ -20,26 +20,26 @@ export const userRegistration = async (body) => {
 
 //login user
 
-export const login = async (body)=>{
-  const user = await User.findOne({email: body.email})
-  if(user==null){
-    throw new Error("User does not exist")
+//export const login = async (body)=>{
+  //const user = await User.findOne({email: body.email})
+  //if(user==null){
+   // throw new Error("User does not exist")
 
   }
-  else{
-    const validPassword = bcrypt.compareSync(body.password,user.password);
-    if(validPassword){
+  //else{
+    //const validPassword = bcrypt.compareSync(body.password,user.password);
+    //if(validPassword){
     
-      var jwt = require('jsonwebtoken');
-      const token = jwt.sign({"email": user.email,"id":user._id},'process.env.SECRET_CODE');
-       return token;
+      //var jwt = require('jsonwebtoken');
+      //const token = jwt.sign({"email": user.email,"id":user._id},'process.env.SECRET_CODE');
+       //return token;
       
-    }
-    else{
-      throw new Error("password is invalid")
-    }
-  }
-}
+   // }
+   /// else{
+      //throw new Error("password is invalid")
+   // }
+ // }
+//}
 
 //update single user
 export const userRegister = async (_id, body) => {
