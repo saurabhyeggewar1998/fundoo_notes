@@ -19,11 +19,22 @@ export const userAuth = async (req, res, next) => {
       };
     bearerToken = bearerToken.split(' ')[1];
 
-    const { user } = await jwt.verify(bearerToken, 'your-secret-key');
-    res.locals.user = user;
-    res.locals.token = bearerToken;
-    next();
-  } catch (error) {
+     jwt.verify(bearerToken,process.env.SECRET_CODE, (err,verifiedToken) => {
+       if (err) {
+         throw {
+           code:HttpStatus.BAD_REQUEST,
+           massage:'Athorization token inccorrect'
+         };
+       }else {
+         req.body['data'] = verifiedToken
+         next();
+       }
+
+     }
+    
+     );
+  }
+  catch (error) {
     next(error);
   }
 };

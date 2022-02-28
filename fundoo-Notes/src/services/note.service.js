@@ -2,13 +2,8 @@ import Note from '../models/note.model';
 
 //create new note
 export const create = async (body) => {
-        const note = await Note.findOne({ userID: body.userID })
-    if (note == null) {
-      const data = await Note.create(body);
-      return data;
-    }else {
-      throw new Error ("Note Already Exists") ;
-    }
+        const Notebody = await Note.create(body);
+          return Notebody;
 };
 
 //get all notes
@@ -42,3 +37,32 @@ export const deleteNote = async (id) => {
     await User.findByIdAndDelete(id);
     return '';
   };
+
+  //archive
+
+  export const archive = async (_id, body) => {
+    const data = await Note.findByIdAndUpdate(
+      {
+        _id
+      },
+       {
+        $set: { isArchived: true }
+      }
+    );
+    return data;
+  };
+
+  //trashing
+
+  export const trashedNotes = async (_id) => {
+    const data = await Note.findByIdAndUpdate(
+      {
+        _id
+      },
+       {
+        $set: { isDeleted: true }
+      }
+    );
+    return data;
+  };
+
