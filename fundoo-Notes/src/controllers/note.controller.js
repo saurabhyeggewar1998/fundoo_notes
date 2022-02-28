@@ -4,16 +4,25 @@ import * as NoteService from '../services/note.service';
 // Create new Note
 export const create = async (req, res, next) => {
     try {
+      console.log(" before adding userid req body ---->", req.body)
+      req.body.UserID = req.body.data.id;
+      console.log(" checking id req body ---->", req.body.UserID)
+
+      console.log(" after adding userid req body ---->", req.body)
+      
       const data = await NoteService.create(req.body);
       res.status(HttpStatus.CREATED).json({
         code: HttpStatus.CREATED,
         data: data,
         message: 'Note created successfully'
+
       });
     } catch (error) {
       next(error);
     }
   };
+
+  
 
 //retrieve all notes
 export const getAllNotes = async (req, res, next) => {
@@ -69,3 +78,31 @@ export const getSingleNote = async (req, res, next) => {
       next(error);
     }
   };
+
+
+  export const archive = async (req, res, next) => {
+    try {
+      const data = await NoteService.archive(req.params._id);
+      res.status(HttpStatus.ACCEPTED).json({
+        code: HttpStatus.ACCEPTED,
+        data: data,
+        message: 'Note archived successfully'
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  
+  export const trashedNotes = async (req, res, next) => {
+    try {
+        const data = await NoteService.trashedNotes(req.params._id);
+        res.status(HttpStatus.OK).json({
+            code: HttpStatus.OK,
+            data : data,
+            message: 'Note added to trash'
+        })
+    } catch (error) {
+        next(error)
+    }
+}
