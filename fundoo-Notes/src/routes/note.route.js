@@ -23,7 +23,7 @@ router.delete('/:_id', noteController.deleteNote);
 //Archive note
 router.put('/archive/:_id',noteController.archive)
 
-//trashing
+//trashing a note with noteid
 router.put('/trashedNotes/:_id', noteController.trashedNotes);
 
 

@@ -19,7 +19,10 @@ const noteSchema = new Schema(
      Color:{
          type:String,
      },
-    
+     userId:{
+       type:String,
+       
+     }
     },
 
   {
