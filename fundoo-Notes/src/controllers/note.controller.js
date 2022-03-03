@@ -5,7 +5,7 @@ import * as NoteService from '../services/note.service';
 export const create = async (req, res, next) => {
     try {
       console.log(" before adding userid req body ---->", req.body)
-      req.body.UserID = req.body.data.id;
+      req.body.UserID = req.body.data;
       console.log(" checking id req body ---->", req.body.UserID)
 
       console.log(" after adding userid req body ---->", req.body)

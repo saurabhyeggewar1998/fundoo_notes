@@ -34,13 +34,13 @@ export const updateNote = async (_id, body) => {
 
 //delete note
 export const deleteNote = async (id) => {
-    await User.findByIdAndDelete(id);
+    await Note.findByIdAndDelete(id);
     return '';
   };
 
   //archive
 
-  export const archive = async (_id, body) => {
+  export const archive = async (_id) => {
     const data = await Note.findByIdAndUpdate(
       {
         _id

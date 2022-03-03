@@ -6,7 +6,7 @@ import { newNoteValidator, newUserValidator } from '../validators/user.validator
 const router = express.Router();
 
 // Create a new Note
-router.post('',newNoteValidator,userAuth, noteController.create);
+router.post('',newNoteValidator, noteController.create);
 
 // Retrieve all Notes
 router.get('', noteController.getAllNotes);
