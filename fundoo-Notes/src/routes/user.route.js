@@ -13,11 +13,11 @@ router.post('/userregister', newUserValidator, userController.userRegistration);
 
 //route to login 
 
-router.get('/login', userController.login);
+router.post('/login', userController.login);
 
 //rote to forget password
 
-router.get('/forgetPassword', userController.forgetPassword);
+router.post('/forgetPassword', userController.forgetPassword);
 
 //rote to reset password
 
