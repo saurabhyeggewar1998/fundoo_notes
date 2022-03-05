@@ -60,12 +60,12 @@
                 "description": "Login User",
                 "parameters": [
                     {
-                        "name": "Login",
+                        "name": "login",
                         "in": "body",
-                        "description": "Login",
+                        "description": "login",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Login"
+                            "$ref": "#/definitions/login"
                         }
                     }
                 ],
@@ -127,7 +127,7 @@
                     }
                 ]
             },
-            "get": {
+             "get": {
                 "tags": [
                     "Notes"
                 ],
@@ -160,6 +160,47 @@
                 ]
             }
         },
+       
+
+        "/note/{_id}": {
+        "get": {
+            "tags": [
+                "Notes"
+            ],
+            "description": "Get single of user",
+            "parameters": [
+                {
+                    "name": "_id",
+                    "in":"path",
+                    "description": "Note",
+                    "required": false
+                }
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "consumes": [
+                "application/json"
+            ],
+            "responses": {
+                "200": {
+                    "description": "single Notes of user fetched Successfully"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            },
+            "security": [
+                {
+                    "JWT": []
+                }
+            ]
+        }
+    
+    },
+   
+
+
         "/note/archive/{_id}": {
             "put": {
                 "tags": [
@@ -259,7 +300,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "All Notes of user fetched Successfully"
+                        "description": "single of user fetched Successfully"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -292,7 +333,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "All Notes of user fetched Successfully"
+                        "description": "Delate  Successfully"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -419,13 +460,8 @@
                 },
                 "Color": {
                     "type": "string"
-                },
-                "isArchieved": {
-                    "type": "boolean"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 }
+                
             }
         },
         "Update": {
@@ -439,13 +475,8 @@
                 },
                 "Color": {
                     "type": "string"
-                },
-                "isArchieved": {
-                    "type": "boolean"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 }
+            
             }
         },
         "ForgetPassword": {

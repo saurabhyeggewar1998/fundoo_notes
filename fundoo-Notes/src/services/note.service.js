@@ -7,14 +7,19 @@ export const create = async (body) => {
 };
 
 //get all notes
-export const getAllNotes = async () => {
-    const data = await Note.find();
-    return data;
+export const getAllNotes = async (userId) => {
+    const data = await Note.find({userId});
+    if(data.length === 0){
+      throw new Error('No Note Found');
+    } else{
+      return data;
+    }
   };
 
+
 //get single note
-export const getSingleNote = async (id) => {
-    const data = await Note.findById(id);
+export const getSingleNote = async (_id,userId) => {
+    const data = await Note.findById({_id,userId});
     return data;
   };
   
@@ -33,9 +38,10 @@ export const updateNote = async (_id, body) => {
   };
 
 //delete note
-export const deleteNote = async (id) => {
-    await Note.findByIdAndDelete(id);
+export const deleteNote = async (userId) => {
+    await Note.findByIdAndDelete(userId);
     return '';
+    
   };
 
   //archive
@@ -47,6 +53,9 @@ export const deleteNote = async (id) => {
       },
        {
         $set: { isArchived: true }
+      },
+      {
+        new: true
       }
     );
     return data;
@@ -61,6 +70,9 @@ export const deleteNote = async (id) => {
       },
        {
         $set: { isDeleted: true }
+      },
+      {
+        new: true
       }
     );
     return data;

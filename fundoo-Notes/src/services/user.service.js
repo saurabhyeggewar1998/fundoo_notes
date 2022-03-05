@@ -38,7 +38,7 @@ export const forgetPassword = async (body) => {
 
   if ( user.email != null) {
     const token = jwt.sign({'email': user.email,'id':user._id},process.env.SECRET_CODE1);
-    const sendingEmail = mailSend(user.email, token)
+    const sendingEmail =await mailSend(user.email, token)
     return token;
   } else {
     throw new Error ('email is doent match');

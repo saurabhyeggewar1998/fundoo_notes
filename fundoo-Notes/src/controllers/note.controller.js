@@ -27,7 +27,8 @@ export const create = async (req, res, next) => {
 //retrieve all notes
 export const getAllNotes = async (req, res, next) => {
     try {
-        const data = await NoteService.getAllNotes();
+      req.body.userId = req.body.data.id;
+        const data = await NoteService.getAllNotes(req.body.userId);
         res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -41,6 +42,7 @@ export const getAllNotes = async (req, res, next) => {
 //retrieve single note by id
 export const getSingleNote = async (req, res, next) => {
     try {
+      req.body.userId = req.body.data.id;
         const data = await NoteService.getSingleNote(req.params._id);
         res.status(HttpStatus.ACCEPTED).json({
         code: HttpStatus.ACCEPTED,
@@ -55,6 +57,7 @@ export const getSingleNote = async (req, res, next) => {
   //update note
   export const updateNote = async (req, res, next) => {
     try {
+      req.body.userId = req.body.data.id;
       const data = await NoteService.updateNote(req.params._id, req.body);
       res.status(HttpStatus.ACCEPTED).json({
         code: HttpStatus.ACCEPTED,
@@ -68,6 +71,7 @@ export const getSingleNote = async (req, res, next) => {
 
   export const deleteNote = async (req, res, next) => {
     try {
+      req.body.userId = req.body.data.id;
       await NoteService.deleteNote(req.params._id);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
@@ -82,6 +86,7 @@ export const getSingleNote = async (req, res, next) => {
 
   export const archive = async (req, res, next) => {
     try {
+      req.body.userId = req.body.data.id;
       const data = await NoteService.archive(req.params._id);
       res.status(HttpStatus.ACCEPTED).json({
         code: HttpStatus.ACCEPTED,
@@ -96,6 +101,7 @@ export const getSingleNote = async (req, res, next) => {
   
   export const trashedNotes = async (req, res, next) => {
     try {
+      req.body.userId = req.body.data.id;
         const data = await NoteService.trashedNotes(req.params._id);
         res.status(HttpStatus.OK).json({
             code: HttpStatus.OK,
