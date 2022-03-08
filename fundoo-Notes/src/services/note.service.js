@@ -1,4 +1,5 @@
 import Note from '../models/note.model';
+import { client } from '../config/redis';
 
 //create new note
 export const create = async (body) => {
@@ -8,18 +9,20 @@ export const create = async (body) => {
 
 //get all notes
 export const getAllNotes = async (userId) => {
-    const data = await Note.find({userId});
-    if(data.length === 0){
-      throw new Error('No Note Found');
-    } else{
-      return data;
-    }
-  };
+  const data = await Note.find({userId});
+  if(data.length === 0){
+    throw new Error('notes are empty')
+  }else{
+    await client.set('getAllNotes' , JSON.stringify(data));
+  return data;
+  }
+};
 
 
 //get single note
 export const getSingleNote = async (_id,userId) => {
     const data = await Note.findById({_id,userId});
+   // await client.set('getSingleNote' , JSON.stringify(data));
     return data;
   };
   
@@ -41,7 +44,7 @@ export const updateNote = async (_id, body) => {
 export const deleteNote = async (userId) => {
     await Note.findByIdAndDelete(userId);
     return '';
-    
+
   };
 
   //archive
