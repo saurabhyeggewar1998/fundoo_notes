@@ -26,19 +26,18 @@ export const create = async (req, res, next) => {
 
 //retrieve all notes
 export const getAllNotes = async (req, res, next) => {
-    try {
+  try {
       req.body.userId = req.body.data.id;
-        const data = await NoteService.getAllNotes(req.body.userId);
-        res.status(HttpStatus.OK).json({
-        code: HttpStatus.OK,
-        data: data,
-        message: 'All notes fetched successfully'
-    });
-    }catch (error) {
-        next(error);
-    }
-  };
-
+      const data = await NoteService.getAllNotes(req.body.UserId);
+      res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'All notes fetched successfully'
+  });
+  }catch (error) {
+      next(error);
+  }
+};
 //retrieve single note by id
 export const getSingleNote = async (req, res, next) => {
     try {

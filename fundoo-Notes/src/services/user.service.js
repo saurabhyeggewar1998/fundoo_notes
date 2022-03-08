@@ -2,7 +2,7 @@ import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {mailSend } from '../utils/helper';
-
+import {  sender } from '../utils/rabbitmq';
 
 
 //create new user
@@ -11,6 +11,7 @@ export const userRegistration = async (body) => {
   const hasedPassword = bcrypt.hashSync(body.password, saltRounds);
   body.password = hasedPassword;
   const data = await User.create(body);
+  sender(data);
   return data;
 };
 //User Login part
