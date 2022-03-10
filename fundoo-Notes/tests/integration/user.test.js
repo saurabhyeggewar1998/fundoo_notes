@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import HttpStatus from 'http-status-codes';
 
 import app from '../../src/index';
-
+let notetoken;
 describe('User APIs Test', () => {
   before((done) => {
     const clearCollections = () => {
@@ -25,15 +25,15 @@ describe('User APIs Test', () => {
     }
 
     done();
+  
   });
-
   
           describe(`POST /User`, () => {
             it('should  register ', (done) => {
                const user1 = {
-                firstName : "kumaraaa",
-                lastName : "kurmi",
-                email : "sachin@gmail.com",
+                firstName : "dhoni34",
+                lastName : "rohit34",
+                email : "rohit34@gmail.com",
                 password : "1234567"
               };
 
@@ -53,7 +53,7 @@ describe('User APIs Test', () => {
 
             const user1 = {
               
-              email : "sachin@gmail.com",
+              email : "rohit34@gmail.com",
               password : "1234567"
             };
 
@@ -61,6 +61,7 @@ describe('User APIs Test', () => {
               .post('/api/v1/users/login')
               .send(user1)
               .end((err, res) => {
+                notetoken = res.body.data;
                 expect(res.statusCode).to.be.equal(HttpStatus.OK);
                 done();
               });
@@ -74,7 +75,7 @@ describe('User APIs Test', () => {
 
           const user1 = {
             
-            email : "sachin@gmail.com"
+            email : "rohit34@gmail.com"
            
           };
 
@@ -84,19 +85,22 @@ describe('User APIs Test', () => {
             .end((err, res) => {
               expect(res.statusCode).to.be.equal(HttpStatus.OK);
               done();
+
             });
+
         });
     });
+    
     describe(`resetPassword`, () => {
 
       it('should reset', (done) => {
-
+       
         const user1 = {
           
-          password:"rabhu963257"
+          password:"rabhu987556"
          
         };
-        const newJwtoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhY2hpbkBnbWFpbC5jb20iLCJpZCI6IjYyMjM4Y2I2NzBjN2M0NmJlNDQ0NDRhMCIsImlhdCI6MTY0NjQ5Njk1MX0.eHNoN8Tkv2odQ8HcsqtURFhbOeIJ0IvR6-y4iSDUo0Q ";
+        const newJwtoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvaGl0MzRAZ21haWwuY29tIiwiaWQiOiI2MjI5ZmNiMmNkZTg5NzM0NTA4OGE1MTEiLCJpYXQiOjE2NDY5MTg4MzR9.5dZ_V6o6G8I9u-B22BIHT4b3cqtf6MJfoYrj7lc9XLM";
         request(app)
           .put('/api/v1/users/resetPassword')
           .set('Authorization',`${newJwtoken}`)
@@ -105,12 +109,139 @@ describe('User APIs Test', () => {
             expect(res.statusCode).to.be.equal(HttpStatus.OK);
             done();
           });
+        });
       });
-  });
-
-
+      describe(`POST/Create note`, () => {
+        it('Create note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
     
+          request(app)
+            .post('/api/v1/note')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.CREATED);
+              done();
+            });
+        });
+      });
 
-});
+
+      describe(`GET/Fetched all notes`, () => {
+        it('Get all note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .get('/api/v1/note')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.OK);
+              done();
+            });
+        });
+      });
+
+      describe(`GET/get single note`, () => {
+        it('Get single note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .get('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.ACCEPTED);
+              done();
+            });
+        });
+      });
+
+      describe(`PUT/archive note`, () => {
+        it('Archive note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .put('/api/v1/note/archive/622a15715c5d8945d0a59bf5/')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.ACCEPTED);
+              done();
+            });
+        });
+      });
 
 
+      describe(`PUT/trash note`, () => {
+        it('Trash note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .put('/api/v1/note/trashedNotes/622a15715c5d8945d0a59bf5')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.OK);
+              done();
+            });
+        });
+      });
+      describe(`PUT/update note `, () => {
+        it('Update a note by ID', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .put('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.ACCEPTED);
+              done();
+            });
+        });
+      });
+    
+      describe(`DELETE/delete note `, () => {
+        it('Delete note', (done) => {
+          const note = {
+            Title: 'title2',
+            Description: 'description2',
+            Color: 'Green2',
+          };
+    
+          request(app)
+            .delete('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .set('Authorization',  `Bearer ${notetoken}`)
+            .send(note)
+            .end((err, res) => {
+              expect(res.statusCode).to.be.equal(HttpStatus.OK);
+              done();
+            });
+        });
+      });
+   });
