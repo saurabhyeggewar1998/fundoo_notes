@@ -20,6 +20,10 @@ export const userRegistration = async (req, res, next) => {
       message: 'User created successfully'
     });
   } catch (error) {
+    res.status(HttpStatus.CONFLICT).json({
+      code:HttpStatus.CONFLICT,
+      massage:`${error}`
+    })
     next(error);
   }
 };

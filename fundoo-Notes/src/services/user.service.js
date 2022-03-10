@@ -7,12 +7,16 @@ import {  sender } from '../utils/rabbitmq';
 
 //create new user
 export const userRegistration = async (body) => {
+  const user = await User.findOne({ email: body.email })
+  if (user == null) {
   const saltRounds = 10;
   const hasedPassword = bcrypt.hashSync(body.password, saltRounds);
   body.password = hasedPassword;
   const data = await User.create(body);
   sender(data);
   return data;
+  }else
+  throw new Error('email  already exist')
 };
 //User Login part
 export const login = async (body) => {
