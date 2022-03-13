@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import HttpStatus from 'http-status-codes';
 
 import app from '../../src/index';
-let notetoken;
+let notetoken; 
+let id;
 describe('User APIs Test', () => {
   before((done) => {
     const clearCollections = () => {
@@ -124,8 +125,9 @@ describe('User APIs Test', () => {
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
+              id=res.body.data._id;
               expect(res.statusCode).to.be.equal(HttpStatus.CREATED);
-              done();
+               done();
             });
         });
       });
@@ -159,7 +161,7 @@ describe('User APIs Test', () => {
           };
     
           request(app)
-            .get('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .get(`/api/v1/note/${id}`)
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
@@ -178,7 +180,7 @@ describe('User APIs Test', () => {
           };
     
           request(app)
-            .put('/api/v1/note/archive/622a15715c5d8945d0a59bf5/')
+            .put(`/api/v1/note/archive/${id}`)
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
@@ -198,7 +200,7 @@ describe('User APIs Test', () => {
           };
     
           request(app)
-            .put('/api/v1/note/trashedNotes/622a15715c5d8945d0a59bf5')
+            .put(`/api/v1/note/trashedNotes/${id}`)
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
@@ -216,7 +218,7 @@ describe('User APIs Test', () => {
           };
     
           request(app)
-            .put('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .put(`/api/v1/note/${id}`)
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
@@ -235,7 +237,7 @@ describe('User APIs Test', () => {
           };
     
           request(app)
-            .delete('/api/v1/note/622a15715c5d8945d0a59bf5')
+            .delete(`/api/v1/note/${id}`)
             .set('Authorization',  `Bearer ${notetoken}`)
             .send(note)
             .end((err, res) => {
